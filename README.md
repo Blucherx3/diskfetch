@@ -1,5 +1,7 @@
 # diskfetch
 
+![Desktop - 1](https://github.com/Blucherx3/Blucherx3/blob/main/asetss/diskfetch_prewi.png?raw=true)
+
 diskfetch - it's like neofetch, but for your disks. 
 Diskfetch is terminal user interfase util for linux,
 for get more info of your disks.
