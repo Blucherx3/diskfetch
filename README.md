@@ -18,5 +18,6 @@ flags:
 
 # instalation
 ```chmod +x ./install.sh
+# jkewjfi
 ./install.sh
 ```
