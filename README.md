@@ -19,5 +19,5 @@ flags:
 # instalation
 <head>
     chmod +x ./install.sh
-    ./install.sh}
+    ./install.sh
 </head>
