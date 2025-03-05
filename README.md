@@ -12,9 +12,9 @@ flags:
     -v      - outputs version
 
 # Dependencies
-ansi_term = "0.12.1"
-libatasmart = "0.3.3"
-cargo = "1.85.0 (d73d2caf9 2024-12-31)"
+- ansi_term = "0.12.1"
+- libatasmart = "0.3.3"
+- cargo = "1.85.0 (d73d2caf9 2024-12-31)"
 
 # instalation
 {chmod +x ./install.sh
