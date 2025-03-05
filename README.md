@@ -17,7 +17,9 @@ flags:
 - cargo = "1.85.0 (d73d2caf9 2024-12-31)"
 
 # instalation
-<head>
-    chmod +x ./install.sh
-    ./install.sh
-</head>
+<html>
+    <head>
+        chmod +x ./install.sh
+        ./install.sh
+    </head>
+</html>
