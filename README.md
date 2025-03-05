@@ -17,7 +17,7 @@ flags:
 - cargo = "1.85.0 (d73d2caf9 2024-12-31)"
 
 # instalation
-```chmod +x ./install.sh
-# jkewjfi
+```
+chmod +x ./install.sh
 ./install.sh
 ```
