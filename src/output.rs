@@ -1,4 +1,3 @@
-use std::{self, fmt::format, process::Output};
 use libatasmart::Disk;
 use std::fs;
 use ansi_term::Color;
@@ -13,22 +12,26 @@ pub struct diskOutput{
     model: String,
     size: String,
     firmware: String,
+    serial: String,
     temp: String,
+    bed_sector: String,
 }
 
 impl diskOutput{
-    pub fn new(disk: &mut Disk) -> diskOutput{
-        let dinfo = disk.identify_parse().unwrap();
+    pub fn new(disk: &mut Disk, input: &String) -> diskOutput{
+        let dinfo = disk.identify_parse().expect("disk info grt error");
         diskOutput{
             asciLogo: fs::read_to_string(get_disk_ascii(disk)).expect("Eror read asci art file"),
             colorLogo: get_disk_logo_color(disk),
-            brend: get_disk_brend(disk),
+            brend: get_disk_brend(disk).to_string(),
             condition: "CONDITION".to_string(),
-            con_bar: get_disk_condition(disk),
+            con_bar: get_disk_condition(input, disk),
             model: format!("MODEL: {}", dinfo.model),
-            size: format!("SIZE: {} gb", (disk.get_disk_size().unwrap()/1024_u64.pow(3)).to_string()),
+            size: format!("SIZE: {} gb", (disk.get_disk_size().expect("disk size get error")/1024_u64.pow(3)).to_string()),
             firmware: format!("FIRMAWARE: {}", dinfo.firmware),
-            temp: format!("TEMPERATURE: {}°C", disk.get_temperature().unwrap()/1000 - 273),
+            serial: format!("SERIAL: {}", dinfo.serial),
+            temp: format!("TEMPERATURE: {}°C", disk.get_temperature().expect("temperature disk get error")/1000 - 273),
+            bed_sector: format!("BED SECTORS: {}", &disk.get_bad_sectors().expect("bad sectors get error")),
         }
     }
 
@@ -49,14 +52,16 @@ impl diskOutput{
             "-_-_-_-_-_-_-_-_-_-_-_-_", 
             &self.condition, 
             &bar, 
+            &self.bed_sector,
             "-_-_-_-_-_-_-_-_-_-_-_-_", 
             &self.model, 
             &self.size, 
             &self.firmware,
+            &self.serial,
             &self.temp];
 
         for i in 0..ascii_strings.len() {
-            if i == 1_usize || i == 4_usize {
+            if i == 1_usize || i == 5_usize {
                 print!("{}  {}\n" , self.colorLogo.paint(ascii_strings[i].replace("_", " ")), Color::Cyan.paint(output_strings[i]))
             }else if i < output_strings.len() {
                 print!("{}  {}\n" , self.colorLogo.paint(ascii_strings[i].replace("_", " ")), output_strings[i]);
