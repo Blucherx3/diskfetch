@@ -1,0 +1,7 @@
+diskfetch - it's like neofetch, but for disk
+syntax:
+         diskfetch <flags> <path to your disk>
+
+flags:
+    -h      - outputs this information
+    -v      - outputs version
