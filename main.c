@@ -12,19 +12,36 @@
     github - https://github.com/Blucherx3
 */
 #include "diskfetch.h"
+#include <stdio.h>
+#include <string.h>
 
 
 int main(int argSize, char* argv[])
-{
+{   
+    if(strlen(argv[1]) < 8){
+        perror("Error: diskfetch argument unvalidate");
+        return -1;
+    }
     int cont;
     
-    struct disk_info_page disk1 = get_nvme_info(argv[1], argSize);
+    struct disk_info_page disk1;
 
-    char **ref = get_ascii_art(disk1.vender, &cont);
+    switch (argv[1][5]) {
+        case 's':
+            disk1 = get_sata_info_page(argv[1]);
+            break;
+        case 'n':
+            disk1 = get_nvme_info(argv[1], argSize);
+            break;
+        default:
+            printf(RED"Diskfetch: i don`t know what is a disk"RESET);
+            return -1;
+    }
+    char **ascii = get_ascii_art(disk1.vender, &cont);
+    
+    print_disk_info(disk1, ascii, cont);
 
-    print_disk_info(disk1, ref, cont);
+    free(ascii);
 
-    free(ref);
-
-
+    return 0;
 }

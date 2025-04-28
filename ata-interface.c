@@ -54,6 +54,8 @@ struct disk_info_page get_sata_info_page(char* path)
     fclose(fd);
     resault.vender = model_to_vender_code(model_str);
 
+    sk_disk_free(disk);
+    
     return resault;
 
     
