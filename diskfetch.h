@@ -71,3 +71,7 @@ char* get_info_string(int index,const char mask[], struct disk_info_page disk);
 char** get_ascii_art(int v_code, int* len_aski);
 
 int print_disk_info(struct disk_info_page disk_info, char** ascii, int len_ascii);
+
+int model_to_vender_code(char* model);
+
+struct disk_info_page get_sata_info_page(char* path);

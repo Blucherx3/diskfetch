@@ -6,7 +6,6 @@
 #include <fstab.h>
 #include <linux/fs.h>
 #include <stdio.h>
-#include <ctype.h>
 
 
 int print_disk_info(struct disk_info_page disk_info, char** ascii, int len_ascii)
@@ -32,6 +31,10 @@ char* get_vender_name(int v_code)
             return "Kingston";
         case 0x8086:
             return "Intel";
+        case 0x10DE:
+            return "Western Digital";
+        case 0x1B4B:
+            return "Seagate";
         default:
             return "unuknown";
     }
@@ -69,6 +72,12 @@ char** get_ascii_art(int v_code, int* len_aski)
             strcpy(path, "assets/ascii_intel.txt");
             strcpy(color, BLUE);
             break;
+        case 0x10DE:
+            strcpy(path, "assets/ascii_westen.txt");
+            strcpy(color, BLUE);
+        case 0x1B4B:
+            strcpy(path,"assets/ascii_seageate.txt");
+            strcpy(color, GREEN);
         default:
             strcpy(path, "assets/ascii_default.txt");
             strcpy(color, YELLOW);
@@ -97,6 +106,8 @@ char** get_ascii_art(int v_code, int* len_aski)
     }
     fclose(ff);
     
+    free(array_string);
+
     *len_aski = count;
 
     return array_string_with_color;

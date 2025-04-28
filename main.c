@@ -23,4 +23,8 @@ int main(int argSize, char* argv[])
     char **ref = get_ascii_art(disk1.vender, &cont);
 
     print_disk_info(disk1, ref, cont);
+
+    free(ref);
+
+
 }
