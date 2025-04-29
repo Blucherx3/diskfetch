@@ -13,6 +13,7 @@
 */
 #include "diskfetch.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 
@@ -42,6 +43,8 @@ int main(int argSize, char* argv[])
     print_disk_info(disk1, ascii, cont);
 
     free(ascii);
+
+    
 
     return 0;
 }

@@ -98,20 +98,19 @@ char** get_ascii_art(int v_code, int* len_aski)
         string = 0;
         string_size = 0;
     }
-    
-    char **array_string_with_color = malloc(sizeof(char*)*256);
-    for(int i = 0; i <= count; i++){
-        char* stf = malloc(sizeof(char)*256);
-        snprintf(stf, 256, "%s%s"RESET, color, array_string[i]);
-        non_enter(stf);
-        array_string_with_color[i] = stf;
+
+    char **array_string_with_color = malloc(sizeof(char*)*(count+1));
+    char *array_c = malloc(sizeof(char)*256*(count+1));
+    for(int i = 0; i < count; i++){
+        snprintf(&array_c[i*256], 256, "%s%s"RESET, color, array_string[i]);
+        non_enter(&array_c[i*256]);
+        array_string_with_color[i] = &array_c[i*256];
     }
+
     fclose(ff);
-    
     free(array_string);
 
     *len_aski = count;
-
     return array_string_with_color;
 }
 
