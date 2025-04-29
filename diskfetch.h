@@ -32,7 +32,7 @@
  *   Struct for contain and transfer info about disk
  *   
  * @temp:	        Composite Temperature: Contains a value corresponding
- *			   to a temperature in Kelvins that represents the current
+ *			   to a temperature in Celsium that represents the current
  *			   composite temperature of the controller and namespace(s)
  *			   associated with that controller. The manner in which
  *			   this value is computed is implementation specific and

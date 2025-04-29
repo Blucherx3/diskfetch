@@ -20,8 +20,8 @@ struct disk_info_page get_nvme_info(char path_j[], int pathSize){
         / d e v / n v m e 0...
     */
 
-    if(strlen(path_j) < 9){
-        perror("Error: get_nvme_info arguments is unvalidable");
+    if(strlen(path_j) < 10){
+        perror("Error: nvme arguments is unvalidable");
     };
 
     char path[11] = {'/', 'd', 'e', 'v', '/', 'n', 'v', 'm', 'e', path_j[9], '\0'};

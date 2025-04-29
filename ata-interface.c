@@ -18,6 +18,12 @@ struct disk_info_page get_sata_info_page(char* path)
     
     sk_disk_open(path, &disk);
     
+    int kek = sk_disk_smart_read_data(disk);
+    if(kek != 0){
+        perror("Error: disk dont`t has SMART parametrs");
+        return resault;
+    }
+
     uint64_t *size = malloc(sizeof(uint64_t));
     sk_disk_get_size(disk, size);
     resault.size = *(long long unsigned int*)size;
@@ -25,8 +31,7 @@ struct disk_info_page get_sata_info_page(char* path)
 
     uint64_t *temperature = malloc(sizeof(uint64_t));
     sk_disk_smart_get_temperature(disk, temperature);
-    printf("%lu", *temperature);
-    resault.temp = (int)*(long long unsigned int*)temperature;
+    resault.temp = (((int)*(__u32*)temperature)/1000) - 273;
     free(temperature);
 
     uint64_t count_bad_sectors;
@@ -39,15 +44,16 @@ struct disk_info_page get_sata_info_page(char* path)
     FILE* ff = fopen(path_sector_size, "r");
     fscanf(ff, "%llu", &sector_size);
     fclose(ff);
-    resault.health = ((int)(count_bad_sectors/(resault.size/sector_size)) * 100);
+    resault.health = (int)(count_bad_sectors/(resault.size/sector_size)) * 100;
 
     uint64_t power_c;
     sk_disk_smart_get_power_cycle(disk, &power_c);
     resault.power_cycles = *(__u64*)&power_c;
 
-    uint64_t power_h;
-    sk_disk_smart_get_power_on(disk, &power_h);
-    resault.hours = power_h;
+    uint64_t *power_h = malloc(sizeof(uint64_t));
+    sk_disk_smart_get_power_on(disk, power_h);
+    resault.hours = *(__u32*)power_h/3600000;
+    free(power_h);
 
     char model_str[64];
     char path_vendr[64];
