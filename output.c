@@ -6,10 +6,11 @@
 #include <fstab.h>
 #include <linux/fs.h>
 #include <stdio.h>
+#include <unistd.h>
 
 
 int print_disk_info(struct disk_info_page disk_info, char** ascii, int len_ascii)
-{
+{   
     for(int i = 0; i < len_ascii; i++){
         if(i < 9){
             printf("%s %s", ascii[i], get_info_string(i, "abcdbefgh", disk_info));
@@ -31,9 +32,9 @@ char* get_vender_name(int v_code)
             return "Kingston";
         case 0x8086:
             return "Intel";
-        case 0x10DE:
-            return "Western Digital";
         case 0x1B4B:
+            return "Western Digital";
+        case 0x10DE:
             return "Seagate";
         default:
             return "unuknown";
@@ -72,11 +73,11 @@ char** get_ascii_art(int v_code, int* len_aski)
             strcpy(path, "assets/ascii_intel.txt");
             strcpy(color, BLUE);
             break;
-        case 0x10DE:
+        case 0x1B4B:
             strcpy(path, "assets/ascii_westen.txt");
             strcpy(color, BLUE);
             break;
-        case 0x1B4B:
+        case 0x10DE:
             strcpy(path,"assets/ascii_seageate.txt");
             strcpy(color, GREEN);
             break;

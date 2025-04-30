@@ -9,20 +9,16 @@ gcc -g3 $FILES -o diskfetch $(echo "$LIBS" | sed 's/ / -l/g' | sed 's/^/-l/')
 
 
 mkdir /usr/local/bin/diskfetch 
-mv $(pwd)/diskfetch /usr/local/bin/diskfetch/ 
+mv diskfetch /usr/local/bin/diskfetch/ 
 
-cp -r $(pwd)/assets /usr/local/bin/diskfetch/
+cp -r assets /usr/local/bin/diskfetch/
 
 touch /usr/bin/diskfetch
 
 cat > /usr/bin/diskfetch << EOF
 #!/bin/bash
 
-if [ \$# -eq 0 ]; then
-    echo "Error: argument of device not found" >&2
-    echo "Please use this: diskfetch <device>"
-    exit 1
-fi
+cd /usr/local/bin/diskfetch
 
 sudo /usr/local/bin/diskfetch/diskfetch "\$@"
 EOF
