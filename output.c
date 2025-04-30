@@ -84,7 +84,7 @@ char** get_ascii_art(int v_code, int* len_aski)
         default:
             strcpy(path, "assets/ascii_default.txt");
             strcpy(color, YELLOW);
-    }
+    } 
 
     FILE* ff = fopen(path, "r");
 

@@ -14,8 +14,6 @@
 #include "diskfetch.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <ini.h>
 #include <libconfig.h>
 
 
