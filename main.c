@@ -14,7 +14,6 @@
 #include "diskfetch.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <libconfig.h>
 
 
 int main(int argSize, char* argv[])
