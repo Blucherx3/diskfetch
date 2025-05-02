@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 FILES="main.c nvme-interface.c health-progres-bar.c output.c ata-interface.c"
 LIBS="nvme atasmart"
 

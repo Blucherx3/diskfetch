@@ -15,27 +15,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 int main(int argSize, char* argv[])
 {   
 
     if(argSize < 2){
-        perror("Error: uvalidable command or argument: try -h");
+        perror("Error: uvalidable command or argument: try -h\n");
         return -1;
     }
 
     int cont;
+    int Ecode;
     struct disk_info_page disk1;
+
     switch (argv[1][0]) {
         case '/': switch (argv[1][5]) {
             case 's':
-                disk1 = get_sata_info_page(argv[1]);
+            {
+                disk1 = get_sata_info_page(argv[1], &Ecode);
                 break;
+            }
             case 'n':
-                disk1 = get_nvme_info(argv[1], argSize);
+            {
+                disk1 = get_nvme_info(argv[1], argSize, &Ecode);
                 break;
+            }
             default:
-                printf(RED"Diskfetch: i don`t know what is a disk"RESET);
+                perror("\n"RED"Diskfetch: i don`t know what is a disk"RESET"\n");
                 return -1;
         }
         break;
@@ -45,7 +50,7 @@ int main(int argSize, char* argv[])
                 puts("\ndiskfetch - it's like neofetch, but for disk\nsyntax:\n\t\tdiskfetch <flags> <path to your disk>\n\nflags:\n\t-h\t- outputs this information\n\t-v\t- outputs version\n");
                 goto pre_complete;
             case 'v':
-                puts("diskfetch - 1.0.0");
+                puts("diskfetch-1.0.1");
                 goto pre_complete;
             default:
                 perror("Error: i don`t know whot is a flag\n");
@@ -54,17 +59,28 @@ int main(int argSize, char* argv[])
         break;
 
         default:
-            puts(RED"Error: underfind argument"RESET);
+            perror(RED"Error: underfind argument"RESET);
             return -1;
     }
 
-    char **ascii = get_ascii_art(disk1.vender, &cont);
+    switch (Ecode) {
+        case FILE_SISTEM_EROR: 
+            perror(RED"\nError: get info about disk from file sistem fail\n"RESET);
+            return -1;
+        case GET_SMART_NVME_ERROR:
+            perror("\nDiskfetch can found yuor disk but:\n"RED"Error: get info about nvme fail\n"RESET);
+            return -1;
+        case GET_SMART_ATA_ERROR:
+            perror("\nDiskfetch can found yuor disk but:\n"RED"Error: get info about sata/ata device fail\n"RESET);
+            return -1;
+        default:
+            break;
+    }
     
+    char **ascii = get_ascii_art(disk1.vender, &cont);
     print_disk_info(disk1, ascii, cont);
-
     free(ascii);
 
-    
     pre_complete:
     return 0;
 }

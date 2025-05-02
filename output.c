@@ -24,17 +24,17 @@ int print_disk_info(struct disk_info_page disk_info, char** ascii, int len_ascii
 char* get_vender_name(int v_code)
 {
     switch (v_code) {
-        case 0x144d:
+        case SAMSUNG_VCODE:
             return "Samsung";
-        case 0x15b7:
+        case SANDISK_VCODE:
             return "Sandisk";
-        case 0x1e0f:
+        case KINGSTON_VCODE:
             return "Kingston";
-        case 0x8086:
+        case INTEL_VCODE:
             return "Intel";
-        case 0x1B4B:
+        case WESTERN_DIGITAL_VCODE:
             return "Western Digital";
-        case 0x10DE:
+        case SEAGATE_VCODE:
             return "Seagate";
         default:
             return "unuknown";
@@ -57,27 +57,27 @@ char** get_ascii_art(int v_code, int* len_aski)
     char path[64];
     char color[32];
     switch (v_code) {
-        case 0x144d:
+        case SAMSUNG_VCODE:
             strcpy(path, "assets/ascii_samsung.txt");
             strcpy(color, BLUE);
             break;
-        case 0x15b7:
+        case SANDISK_VCODE:
             strcpy(path, "assets/ascii_sandisk.txt");
             strcpy(color, RED);
             break;
-        case 0x1e0f:
+        case KINGSTON_VCODE:
             strcpy(path, "assets/ascii_kingston.txt");
             strcpy(color, RED);
             break;
-        case 0x8086:
+        case INTEL_VCODE:
             strcpy(path, "assets/ascii_intel.txt");
             strcpy(color, BLUE);
             break;
-        case 0x1B4B:
+        case WESTERN_DIGITAL_VCODE:
             strcpy(path, "assets/ascii_westen.txt");
             strcpy(color, BLUE);
             break;
-        case 0x10DE:
+        case SEAGATE_VCODE:
             strcpy(path,"assets/ascii_seageate.txt");
             strcpy(color, GREEN);
             break;

@@ -57,8 +57,22 @@ struct disk_info_page{
     long long unsigned int hours;
 };
 
-// 
-struct disk_info_page get_nvme_info(char path[], int pathSize);
+enum Ecodec{
+    FILE_SISTEM_EROR = 101,
+    GET_SMART_NVME_ERROR = 102,
+    GET_SMART_ATA_ERROR = 103,
+};
+
+enum VendorCodes{
+    WESTERN_DIGITAL_VCODE = 0x10DE,
+    SAMSUNG_VCODE = 0x144D,
+    KINGSTON_VCODE = 0x1E0F,
+    INTEL_VCODE = 0x8086,
+    SEAGATE_VCODE = 0x1B4B,
+    SANDISK_VCODE = 0x15B7,
+};
+
+struct disk_info_page get_nvme_info(char path_j[], int pathSize, int* Ecodes);
 
 char* get_vender_name(int v_code);
 
@@ -74,4 +88,4 @@ int print_disk_info(struct disk_info_page disk_info, char** ascii, int len_ascii
 
 int model_to_vender_code(char* model);
 
-struct disk_info_page get_sata_info_page(char* path);
+struct disk_info_page get_sata_info_page(char* path, int* Ecode);
