@@ -16,6 +16,6 @@
 
 ###
 
-<p align="left">- libnvme<br>- libatasmart</p>
+<p align="left">* libnvme<br>* libatasmart<br>* sudo</p>
 
 ###
