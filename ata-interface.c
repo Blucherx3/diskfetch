@@ -22,8 +22,8 @@ struct disk_info_page get_sata_info_page(char* path, int* Ecode)
     
     int kek = sk_disk_smart_read_data(disk);
     if(kek != 0){
-        perror("Error: disk dont`t has SMART parametrs");
-        return resault;
+        perror(RED"\nError: disk dont`t has SMART parametrs\n"RESET);
+        goto exit;
     }
 
     uint64_t *size = malloc(sizeof(uint64_t));
@@ -65,15 +65,22 @@ struct disk_info_page get_sata_info_page(char* path, int* Ecode)
     fscanf(fd, "%s", model_str);
     fclose(fd);
     resault.vender = model_to_vender_code(model_str);
-
-    int sum_codes = 0;
-    for(int* i = codes; i < &codes[4]; i++){
-        sum_codes += *i;
-    }
-    Ecode = &sum_codes;
-
+    
     sk_disk_free(disk);
     
+    
+
+    int sum_codes = 0;
+    for(int* i = codes; i <= &codes[4]; i++){
+        sum_codes += *i;
+    }
+    
+    *Ecode = (sum_codes!=0 ? GET_SMART_ATA_ERROR : 0);
+
+    return resault;
+    
+    exit:
+    Ecode = (int*)GET_SMART_ATA_ERROR;
     return resault;
 
     
@@ -81,11 +88,17 @@ struct disk_info_page get_sata_info_page(char* path, int* Ecode)
 
 int model_to_vender_code(char* model)
 {
-    if(strncmp(model, "WDC", 3)){
-        return WESTERN_DIGITAL_VCODE;
-    } else if(strncmp(model, "ST", 2)){
-        return SEAGATE_VCODE;
-    } else {
-        return 0;
+    switch (model[0]) {
+        case 'W':
+            switch (model[1]) {
+                case 'D': return WESTERN_DIGITAL_VCODE;
+                default: return UNDERFIND_VCODE;            
+            }
+        case 'S':
+            switch (model[1]) {
+                case 'T': return SEAGATE_VCODE;
+                default: return UNDERFIND_VCODE;
+            }
+        default: return UNDERFIND_VCODE;
     }
 }

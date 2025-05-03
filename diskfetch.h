@@ -70,6 +70,7 @@ enum VendorCodes{
     INTEL_VCODE = 0x8086,
     SEAGATE_VCODE = 0x1B4B,
     SANDISK_VCODE = 0x15B7,
+    UNDERFIND_VCODE = -1
 };
 
 struct disk_info_page get_nvme_info(char path_j[], int pathSize, int* Ecodes);
