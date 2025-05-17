@@ -58,9 +58,12 @@ struct disk_info_page{
 };
 
 enum Ecodec{
+    NOTHING = 0,
     FILE_SISTEM_EROR = 101,
     GET_SMART_NVME_ERROR = 102,
     GET_SMART_ATA_ERROR = 103,
+    UNVALIDABLE_CLI_ARGUMENT = 104,
+    DISK_NOT_FOUND = 404,
 };
 
 enum VendorCodes{

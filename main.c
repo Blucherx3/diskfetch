@@ -14,17 +14,23 @@
 #include "diskfetch.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 int main(int argSize, char* argv[])
 {   
+    int Ecode = NOTHING;
 
     if(argSize < 2){
-        perror("Error: uvalidable command or argument: try -h\n");
-        return -1;
+        Ecode = UNVALIDABLE_CLI_ARGUMENT;
+        goto lets_chek_ecode;
+    }
+
+    if(access(argv[1], F_OK) != 0){
+        Ecode = DISK_NOT_FOUND;
+        goto lets_chek_ecode;
     }
 
     int cont;
-    int Ecode;
     struct disk_info_page disk1;
 
     switch (argv[1][0]) {
@@ -63,7 +69,16 @@ int main(int argSize, char* argv[])
             return -1;
     }
 
+    lets_chek_ecode:
     switch (Ecode) {
+        case NOTHING:
+            break;
+        case UNVALIDABLE_CLI_ARGUMENT:
+            perror(RED"\nERROR: invalid command line argument\n"RESET);
+            return -1;
+        case DISK_NOT_FOUND:
+            perror(RED"\nERROR: disk not found\n"RESET);
+            return -1;
         case FILE_SISTEM_EROR: 
             perror(RED"\nError: get info about disk from file sistem fail\n"RESET);
             return -1;
@@ -74,7 +89,8 @@ int main(int argSize, char* argv[])
             perror("\nDiskfetch can found yuor disk but:\n"RED"Error: get info about sata/ata device fail\n"RESET);
             return -1;
         default:
-            break;
+            perror(YELLOW"\nUnuknown error\n"RESET);
+            return -1;
     }
     
     char **ascii = get_ascii_art(disk1.vender, &cont);
