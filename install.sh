@@ -4,7 +4,7 @@ FILES="main.c nvme-interface.c health-progres-bar.c output.c ata-interface.c"
 LIBS="nvme atasmart"
 
 
-gcc -g3 $FILES -o diskfetch $(echo "$LIBS" | sed 's/ / -l/g' | sed 's/^/-l/') 
+gcc -O3 $FILES -o diskfetch $(echo "$LIBS" | sed 's/ / -l/g' | sed 's/^/-l/') 
 
 
 mkdir /usr/local/bin/diskfetch 
